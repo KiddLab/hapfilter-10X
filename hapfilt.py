@@ -29,7 +29,7 @@ def count_site(bamFileName,chrom,pos,ref,alt):
                 numAligned += 1
         if numAligned != 1:  #might see multiple aligned in case of indel
             continue
-        if queryAlignedBase == '?':  # no alignment...
+        if queryAlignedBase == '?' or queryAlignedBase == 'N':  # no alignment...
             continue
         if queryAlignedBase == ref:
             allele_i = 0
