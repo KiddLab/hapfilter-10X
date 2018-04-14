@@ -56,7 +56,6 @@ for line in inFile:
         continue
     line = line.rstrip()
     line = line.split()
-    print line
     chrom = line[0]
     pos = int(line[1])
     ref = line[3]
@@ -78,8 +77,9 @@ for line in inFile:
     nl = '\t'.join(nl) + '\n'
     outFile.write(nl)
     numRecords += 1
-    if numRecords >= 100:
-        break
+    if numRecords % 100 == 0:
+        print 'Did %i records...'  % numRecords
+    
     
 inFile.close()
 outFile.close()    
