@@ -47,10 +47,10 @@ print nl
 
 
 
-
+#22      50502469        .       A       G 
 print 'next'
-chrom = '1'
-pos = 228475850
+chrom = '22'
+pos = 50502469
 ref = 'A'
 alt = 'G'
 counts = hapfilt.count_site(bamFileName,chrom,pos,ref,alt)

@@ -7,8 +7,8 @@ def count_site(bamFileName,chrom,pos,ref,alt):
    # hap1, hap2, haplotype not assigned
    # and then for each haplotype
    # ref counts, alt counts, other allele, alt/(ref+alt)
-
-    counts = [[0,0,0,0.0],[0,0,0,0.0],[0,0,0,0.0]]
+   # then last two are min and max of fraction for hap1 and hap2
+    counts = [[0,0,0,0.0],[0,0,0,0.0],[0,0,0,0.0],[0.0,0.0]]
     samfile = pysam.AlignmentFile(bamFileName, 'rb')
     # get  reads overlapping segment
     for read in samfile.fetch(chrom,pos-1,pos):
@@ -25,6 +25,8 @@ def count_site(bamFileName,chrom,pos,ref,alt):
         numAligned = 0
         for i in aligned_pairs:
             if i[1] == pos-1:
+                if i[0] == None: # deletion
+                    continue
                 queryAlignedBase = read.query_sequence[i[0]]
                 numAligned += 1
         if numAligned != 1:  #might see multiple aligned in case of indel
@@ -47,6 +49,14 @@ def count_site(bamFileName,chrom,pos,ref,alt):
     
     for i in range(3): # get the alt read fraction
         t = counts[i][0]+counts[i][1]
-        counts[i][3] = float(counts[i][1])/t    
+        if t == 0:
+            counts[i][3] = 0
+        else:
+            counts[i][3] = float(counts[i][1])/t    
+    
+
+    counts[3][0] = min(counts[0][3],counts[1][3])
+    counts[3][1] = max(counts[0][3],counts[1][3])
+    
     return counts
 #######################################################################
