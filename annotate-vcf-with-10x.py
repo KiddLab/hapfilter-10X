@@ -8,8 +8,9 @@ from optparse import OptionParser
 USAGE = """
 annotate-vcf-with-10x.py --vcf <vcf file>
                          --out <output file of info>
-                         --gzip <input is gzipped, output will be too>
                          --bam <10X bam file to uses> 
+                         --gzip <input is gzipped, output will be too>
+                         --pass <only do sites marked as PASS in vcf>
 
 
 Assumes/only deails with biallelic SNVs
@@ -22,6 +23,8 @@ parser.add_option('--vcf',dest='vcfFileName', help = 'name of VCF file')
 parser.add_option('--out',dest='outFileName', help = 'name of output table file')
 parser.add_option('--bam',dest='bamFileName', help = 'name of 10X BAM file')
 parser.add_option('--gzip',dest='isGzip',  action='store_true', default = False, help = 'input/output gzipped')
+parser.add_option('--pass',dest='passOnly',  action='store_true', default = False, help = 'only do pass sites')
+
 
 (options, args) = parser.parse_args()
 
@@ -61,6 +64,9 @@ for line in inFile:
     ref = line[3]
     alt = line[4]
     passVal = line[6]
+    
+    if options.passOnly is True and passVal != 'PASS':
+        continue
     
     # only bialelic indels
     if len(ref) != 1:
