@@ -60,3 +60,28 @@ def count_site(bamFileName,chrom,pos,ref,alt):
     
     return counts
 #######################################################################
+def get_decision(counts):
+    decision = '?'
+    minFreq = counts[3][0]
+    maxFreq = counts[3][1]
+    
+    if maxFreq >= 0.90:
+       decision = 'fail10Xhet'
+       return decision
+    if maxFreq >= 0.50:
+       decision = 'fail10Xmajorhap'
+       return decision
+    if minFreq >= 0.01:
+       decision = 'fail10Xbothhaps'
+       return decision
+    if maxFreq == 0.0:
+        decision = 'PASS10Xnoinfo'
+        return decision
+    decision = 'PASS10Xok'
+
+    
+    return decision    
+
+
+
+

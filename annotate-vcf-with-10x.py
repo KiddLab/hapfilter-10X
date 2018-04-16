@@ -49,7 +49,7 @@ else:
 nl = ['#chrom','pos','ref','alt','passValfromVCF','hap1Ref','hap1Alt','hap1Other','hap1Freq',
       'hap2Ref','hap2Alt','hap2Other','hap2Freq',
       'hapUnkRef','hapUnkAlt','hapUnkOther','hapUnkFreq',
-      'minFreq','maxFreq']
+      'minFreq','maxFreq','10xdecision']
       
 nl = '\t'.join(nl) + '\n'
 outFile.write(nl)
@@ -79,6 +79,11 @@ for line in inFile:
     nl = [chrom,pos,ref,alt,passVal]
     for i in counts:
         nl.extend(i)    
+    
+    decision = hapfilt.get_decision(counts)
+    nl.append(decision)
+
+    
     nl = [str(j) for j in nl]    
     nl = '\t'.join(nl) + '\n'
     outFile.write(nl)
