@@ -26,12 +26,13 @@ Given typical read depths, many candidates will have no information in a typical
 
 ## Usage
 
-'''
+```
 python2 hapfilter-10X/annotate-vcf-with-10x.py \
 --vcf a-vcf-like-file.vcf \
 --bam /path/to/10x/longranger/bam/tissue.bam \
 --out a-vcf-like-file.10X-table.txt
-'''
+```
+
 If input vcf is gzipped use options --gzip.  To only consider sites that are PASS in the VCF file use
 options --pass.  This can greatly speed up execution time.  For large files, consider running in batches.
 
